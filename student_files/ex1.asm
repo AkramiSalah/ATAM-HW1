@@ -5,26 +5,30 @@ _start:
 
 # Add your code here!
 
-# rax will be used as the counter, rsi will be used as the index
+# rax will be used as the counter, rsi will be used as the char *ptr
 xor %rax, %rax
-xor %rsi, %rsi
+leaq .str(%rip), %rsi
 
-# CL, the lower nibble in rcx will hold the current char, using CL cuz its exactly a byte :)
+# CL, the lower byte in rcx will hold the current char being pointed to
 parse_char_HW1:
-movb .str(%rip, %rsi, 1), %CL
+movb (%rsi), %CL
 
+#please note 0x00 in ascii is the NULL terminator
 cmp  $0x00, %CL
 je termination_squence_HW1
 
+#please note 0x61 in ascii is 'a'
 cmp $0x61, %CL
-jl inc_index_HW1
+jl inc_ptr_HW1
 
+#please note 0x61 in ascii is 'z'
 cmp $0x7A, %CL
-jg inc_index_HW1
+jg inc_ptr_HW1
 
+#counter++
 inc %rax
 
-inc_index_HW1:
+inc_ptr_HW1:
 inc %rsi
 jmp parse_char_HW1
 
