@@ -25,7 +25,7 @@ cmpl $8, %ebx
 jae terminate_HW1
 
 incq %r10
-cmpq $260, %r10 
+cmpq $260, %r10
 jg terminate_HW1
 # if we visited nodes more than 256 times then its guranteed that we visited each node at each state (up,down,left,right), 
 # used 260 just to be extra safe from off by one errors.
@@ -111,15 +111,7 @@ decl %ecx
 jmp parse_char_HW1
 
 terminate_HW1:
-# return 0; basically..
 # but the exit syscall aint allowed so... idk...
-
-
-
-
-
-
-
 
 
 #proof for the xors, starting with the '/' case:
