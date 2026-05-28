@@ -16,7 +16,7 @@ movl 4(%rax), %ecx #cols
 movl 8(%rax), %edx #direction
 
 # sign extend long to quad because memeory address gotta be 64 bits otherwise issues..
-movslq %ebx, %rbx  
+movslq %ebx, %rbx
 movslq %ecx, %rcx
 
 parse_char_HW1:
@@ -68,15 +68,15 @@ movb $1, (%r9)
 jmp terminate_HW1
 
 backslash_case_HW1:
-#assumiong edx is direction
+#assumiong rdx is direction
 # we can jsut toggle the two lowest bits
-xor $0x00000003, %edx
+xor $0x03, %dl
 jmp step_HW1
 
 forwardslash_case_HW1:
-#assumiong edx is direction
+#assumiong rdx is direction
 # we can jsut toggle the lowest bit
-xor $0x00000001, %edx
+xor $0x01, %dl
 jmp step_HW1
 
 
