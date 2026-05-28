@@ -4,16 +4,16 @@
 _start:
 
 lea .lazer(%rip), %rax
-lea .borad(%rip), %r8
+lea .board(%rip), %r8
 
 lea .valid(%rip), %r9
 movb $0, (%r9)
 
 xor %r10, %r10
 
-movl 0(%rax), %edx #direction
+movl 0(%rax), %ebx #rows
 movl 4(%rax), %ecx #cols
-movl 8(%rax), %ebx #rows
+movl 8(%rax), %edx #direction
 
 parse_char_HW1:
 
@@ -26,6 +26,7 @@ jae terminate_HW1
 
 incq %r10
 cmpq $260, %r10 
+jg terminate_HW1
 # if we visited nodes more than 256 times then its guranteed that we visited each node at each state (up,down,left,right), 
 # used 260 just to be extra safe from off by one errors.
 
@@ -38,27 +39,24 @@ addq %rcx, %rsi #pointer arithmetic..
 
 movb (%rsi), %al
 
-cmpl $0x2E, %al
+cmpb $0x2E, %al
 je DOT_case_HW1
 
-cmpl $0x23, %al
+cmpb $0x23, %al
 je WALL_case_HW1
 
-cmpl $0x54, %al
+cmpb $0x54, %al
 je T_case_HW1
 
-cmpl $0x5C, %al
+cmpb $0x5C, %al
 je backslash_case_HW1
 
-cmpl $0x2F, %al
+cmpb $0x2F, %al
 je forwardslash_case_HW1
 
-
-
-
+jmp terminate_HW1 #its here incase we reach an unexpected/unhandeleed char.
 
 DOT_case_HW1:
-jg terminate_HW1
 jmp step_HW1
 
 WALL_case_HW1:
@@ -114,9 +112,7 @@ jmp parse_char_HW1
 
 terminate_HW1:
 # return 0; basically..
-movl $60, %eax
-xorl %edi, %edi
-syscall
+# but the exit syscall aint allowed so... idk...
 
 
 
