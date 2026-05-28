@@ -9,17 +9,25 @@ lea .borad(%rip), %r8
 lea .valid(%rip), %r9
 movb $0, (%r9)
 
+xor %r10, %r10
+
 movl 0(%rax), %edx #direction
 movl 4(%rax), %ecx #cols
 movl 8(%rax), %ebx #rows
 
 parse_char_HW1:
+
+#gotta use jae instead of jge becuase jae works as unsigned, and we might go left of the left wall for example.
 cmpl $8, %ecx
-jge terminate_HW1
+jae terminate_HW1
 
 cmpl $8, %ebx
-jge terminate_HW1
+jae terminate_HW1
 
+incq %r10
+cmpq $260, %r10 
+# if we visited nodes more than 256 times then its guranteed that we visited each node at each state (up,down,left,right), 
+# used 260 just to be extra safe from off by one errors.
 
 # sign extend long to quad because memeory address gotta be 64 bits otherwise issues..
 movslq %ebx, %rbx  
@@ -45,16 +53,11 @@ je backslash_case_HW1
 cmpl $0x2F, %al
 je forwardslash_case_HW1
 
-# the only remaining option is the revisit case anyway and it simplifies things.
-jmp revisit_case_HW1
-
 
 
 
 
 DOT_case_HW1:
-incq %r9
-cmpq $256, %r9 #if we visited nodes more than 256 times then its guranteed that we visited each node at each state (up,down,left,right)
 jg terminate_HW1
 jmp step_HW1
 
@@ -80,16 +83,16 @@ jmp step_HW1
 
 
 step_HW1:
-cmpl $0x30, %edx
+cmpl $0, %edx
 je up_HW1
 
-cmpl $0x31, %edx
+cmpl $1, %edx
 je right_HW1
 
-cmpl $0x32, %edx
+cmpl $2, %edx
 je down_HW1
 
-cmpl $0x33, %edx
+cmpl $3, %edx
 je left_HW1
 
 
