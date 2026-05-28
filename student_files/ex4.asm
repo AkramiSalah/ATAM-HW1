@@ -15,13 +15,17 @@ movl 0(%rax), %ebx #rows
 movl 4(%rax), %ecx #cols
 movl 8(%rax), %edx #direction
 
+# sign extend long to quad because memeory address gotta be 64 bits otherwise issues..
+movslq %ebx, %rbx  
+movslq %ecx, %rcx
+
 parse_char_HW1:
 
 #gotta use jae instead of jge becuase jae works as unsigned, and we might go left of the left wall for example.
-cmpl $8, %ecx
+cmpq $8, %rcx
 jae terminate_HW1
 
-cmpl $8, %ebx
+cmpq $8, %rbx
 jae terminate_HW1
 
 incq %r10
@@ -29,10 +33,6 @@ cmpq $260, %r10
 jg terminate_HW1
 # if we visited nodes more than 256 times then its guranteed that we visited each node at each state (up,down,left,right), 
 # used 260 just to be extra safe from off by one errors.
-
-# sign extend long to quad because memeory address gotta be 64 bits otherwise issues..
-movslq %ebx, %rbx  
-movslq %ecx, %rcx
 
 lea (%r8, %rbx, 8), %rsi  #claculated address of first elem in the row.
 addq %rcx, %rsi #pointer arithmetic..
@@ -81,33 +81,33 @@ jmp step_HW1
 
 
 step_HW1:
-cmpl $0, %edx
+cmpq $0, %rdx
 je up_HW1
 
-cmpl $1, %edx
+cmpq $1, %rdx
 je right_HW1
 
-cmpl $2, %edx
+cmpq $2, %rdx
 je down_HW1
 
-cmpl $3, %edx
+cmpq $3, %rdx
 je left_HW1
 
 
 up_HW1:
-decl %ebx
+decq %rbx
 jmp parse_char_HW1
 
 right_HW1:
-incl %ecx
+incq %rcx
 jmp parse_char_HW1
 
 down_HW1:
-incl %ebx
+incq %rbx
 jmp parse_char_HW1
 
 left_HW1:
-decl %ecx
+decq %rcx
 jmp parse_char_HW1
 
 terminate_HW1:
