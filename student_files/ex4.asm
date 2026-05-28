@@ -53,7 +53,9 @@ jmp revisit_case_HW1
 
 
 DOT_case_HW1:
-movb %dl, (%rsi) #record direction in there.
+incq %r9
+cmpq $256, %r9 #if we visited nodes more than 256 times then its guranteed that we visited each node at each state (up,down,left,right)
+jg terminate_HW1
 jmp step_HW1
 
 WALL_case_HW1:
@@ -75,11 +77,6 @@ forwardslash_case_HW1:
 # we can jsut toggle the lowest bit
 xor $0x00000001, %edx
 jmp step_HW1
-
-revisit_case_HW1:
-cmpb %dl, (%rsi)
-je terminate_HW1
-jmp DOT_case_HW1
 
 
 step_HW1:
