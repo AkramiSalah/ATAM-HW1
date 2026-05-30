@@ -17,7 +17,7 @@ loop_HW1:
     #string is empty
     cmpq %rsp, %rbp  # Compare the Top (%rsp) with the Bottom (%rbp)
     je return_1_HW1  # If they are equal, all the bracets were closed.
-    j return_0_HW1
+    jmp return_0_HW1
 
 string_not_empty_HW1:
     #open bracet section:
@@ -26,19 +26,19 @@ string_not_empty_HW1:
     cmpb $0x5B, %al #[
     jne check_bracet2_HW1
     pushq $0x5D
-    j go_next_char_HW1
+    jmp go_next_char_HW1
 
 check_bracet2_HW1:
     cmpb $0x7B, %al #{
     jne check_bracet3_HW1
     pushq $0x7D
-    j go_next_char_HW1
+    jmp go_next_char_HW1
 
 check_bracet3_HW1:
     cmpb $0x28, %al #(
     jne check_closing_bracet_HW1
     pushq $0x29
-    j go_next_char_HW1
+    jmp go_next_char_HW1
 
 check_closing_bracet_HW1:
     #if the stack is empty, we are not searching for a closing bracet and so fail.
@@ -51,11 +51,11 @@ check_closing_bracet_HW1:
     jne return_0_HW1
 
     popq %rcx #remove old searched value (garbage value now)
-    j go_next_char_HW1
+    jmp go_next_char_HW1
 
 go_next_char_HW1:
     incq %rdi
-    j loop_HW1
+    jmp loop_HW1
 
 return_1_HW1:
     movl $1, %eax
