@@ -34,3 +34,4 @@ jmp parse_char_HW1
 
 termination_squence_HW1:
 movq %rax, .cout(%rip)
+ret
