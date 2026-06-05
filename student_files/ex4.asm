@@ -9,15 +9,20 @@ lea .board(%rip), %r8
 lea .valid(%rip), %r9
 movb $0, (%r9)
 
-xor %r10, %r10
 
 movl 0(%rax), %ebx #rows
 movl 4(%rax), %ecx #cols
 movl 8(%rax), %edx #direction
 
+
 # sign extend long to quad because memeory address gotta be 64 bits otherwise issues..
 movslq %ebx, %rbx
 movslq %ecx, %rcx
+
+# store original coords in these regs for the bonus section.
+movq %rbx, %r10
+movq %rcx, %r11 
+movl %edx, %r12d
 
 parse_char_HW1:
 
@@ -28,11 +33,6 @@ jae terminate_HW1
 cmpq $8, %rbx
 jae terminate_HW1
 
-incq %r10
-cmpq $260, %r10
-jg terminate_HW1
-# if we visited nodes more than 256 times then its guranteed that we visited each node at each state (up,down,left,right), 
-# used 260 just to be extra safe from off by one errors.
 
 lea (%r8, %rbx, 8), %rsi  #claculated address of first elem in the row.
 addq %rcx, %rsi #pointer arithmetic..
@@ -96,19 +96,30 @@ je left_HW1
 
 up_HW1:
 decq %rbx
-jmp parse_char_HW1
+jmp check_inf_cycle_HW1
 
 right_HW1:
 incq %rcx
-jmp parse_char_HW1
+jmp check_inf_cycle_HW1
 
 down_HW1:
 incq %rbx
-jmp parse_char_HW1
+jmp check_inf_cycle_HW1
 
 left_HW1:
 decq %rcx
+
+
+check_inf_cycle_HW1:
+cmpq %rbx, %r10
+jne parse_char_HW1
+cmpq %rcx, %r11 
+jne parse_char_HW1
+cmpl %edx, %r12d
+jne parse_char_HW1
+
 jmp parse_char_HW1
+
 
 terminate_HW1:
 # but the exit syscall aint allowed so... idk...
