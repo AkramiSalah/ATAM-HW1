@@ -7,7 +7,7 @@ _start:
 
 # rax will be used as the counter, rsi will be used as the char *ptr
 xor %rax, %rax
-leaq .str(%rip), %rsi
+leaq str(%rip), %rsi
 
 # CL, the lower byte in rcx will hold the current char being pointed to
 parse_char_HW1:
@@ -33,5 +33,12 @@ inc %rsi
 jmp parse_char_HW1
 
 termination_squence_HW1:
-movq %rax, .cout(%rip)
-ret
+movq %rax, count(%rip)
+
+
+
+
+
+
+
+# this is a comment just to not have a warning i guess lol

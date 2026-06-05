@@ -3,10 +3,10 @@
 .section .text
 _start:
 
-lea .lazer(%rip), %rax
-lea .board(%rip), %r8
+lea lazer(%rip), %rax
+lea board(%rip), %r8
 
-lea .valid(%rip), %r9
+lea valid(%rip), %r9
 movb $0, (%r9)
 
 
@@ -63,7 +63,7 @@ WALL_case_HW1:
 jmp terminate_HW1
 
 T_case_HW1:
-lea .valid(%rip), %r9
+lea valid(%rip), %r9
 movb $1, (%r9)
 jmp terminate_HW1
 
@@ -121,10 +121,10 @@ jne parse_char_HW1
 
 
 terminate_HW1:
-ret
+# uhh... no idea what should be here tbh... putting ret makes me fail tests..
 
 
-#proof for the xors, starting with the '/' case:
+# explaination for the xors, starting with the '/' case:
 # this is shown first using words, then numbers, then binary.
 # you can easily see xoring one side by 01 will get you to the other side (toggle the lsb)
 # this is all within the scope of sifratiot, i just made two tables and saw the pattern.
@@ -135,4 +135,4 @@ ret
 # for the '\' case ill just show the binary and youll have to trust me :)
 # 00 <-> 11
 # 01 <-> 10
-#so you can easily see that xoring by 11 will transfer use form one side to the other (otggle both of the 2 lsbs)
+# so you can easily see that xoring by 11 will transfer use form one side to the other (otggle both of the 2 lsbs)

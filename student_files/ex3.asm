@@ -53,4 +53,3 @@ end_of_string_HW1:
 finish_HW1:
     # add $0 to null terminated string
     movb $0, (%rdi)
-    ret

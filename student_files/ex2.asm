@@ -85,9 +85,11 @@ end_of_string_HW1:
     jmp return_0_HW1
 
 return_1_HW1:
-    movl $1, valid
-    ret
+    movl $1, valid(%rip)
+    jmp terminate_HW1
 
 return_0_HW1:
-    movl $0, valid
-    ret
+    movl $0, valid(%rip)
+    jmp terminate_HW1
+
+terminate_HW1:
