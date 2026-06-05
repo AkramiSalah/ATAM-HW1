@@ -117,12 +117,11 @@ cmpq %rcx, %r11
 jne parse_char_HW1
 cmpl %edx, %r12d
 jne parse_char_HW1
-
-jmp parse_char_HW1
+#itll reach the termination label if none of those cmprs made a jmp happen...
 
 
 terminate_HW1:
-# but the exit syscall aint allowed so... idk...
+ret
 
 
 #proof for the xors, starting with the '/' case:
