@@ -33,12 +33,5 @@ inc %rsi
 jmp parse_char_HW1
 
 termination_squence_HW1:
-movq %rax, count(%rip)
+movl %eax, count(%rip)
 
-
-
-
-
-
-
-# this is a comment just to not have a warning i guess lol

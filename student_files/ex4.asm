@@ -136,3 +136,8 @@ terminate_HW1:
 # 00 <-> 11
 # 01 <-> 10
 # so you can easily see that xoring by 11 will transfer use form one side to the other (otggle both of the 2 lsbs)
+
+
+
+
+
